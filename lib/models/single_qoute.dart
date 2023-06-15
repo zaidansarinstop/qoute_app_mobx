@@ -3,15 +3,20 @@ import 'dart:convert';
 
 class SingleQoute {
   String text;
-  String author;
+  String? author;
 
   SingleQoute(this.text, this.author);
 
   factory SingleQoute.fromMap(Map<String, dynamic> map) {
     return SingleQoute(
       map['text'] as String,
-      map['author'] as String,
+      map['author'] as String?,
     );
+  }
+
+  @override
+  String toString() {
+    return "SingleQoute{text: $text, author: $author}";
   }
 
   factory SingleQoute.fromJson(String source) =>

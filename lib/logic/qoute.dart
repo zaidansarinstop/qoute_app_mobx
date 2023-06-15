@@ -1,11 +1,16 @@
 import 'package:mobx/mobx.dart';
+import 'package:qoute_app_mobx/models/single_qoute.dart';
+import 'package:qoute_app_mobx/services/qoute_api.dart';
+part 'qoute.g.dart';
 
-class Qoute with Store {
+class QouteStore = _QouteStore with _$QouteStore;
+
+abstract class _QouteStore with Store {
+  final _qouteAPI = QouteAPI();
+
   @observable
-  ObservableList<Map<String, String>> listOfQoutes;
+  ObservableFuture<List<SingleQoute>>? listOfQoutes;
 
-  Qoute(this.listOfQoutes);
-
-  // @action
-  // fetchQoutes() => listOfQoutes = ObservableFuture();
+  @action
+  fetch() => listOfQoutes = ObservableFuture(_qouteAPI.fethQoutes());
 }
