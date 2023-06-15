@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Qoute Generator App'),
+      home: const MyHomePage(title: 'Qoute App'),
     );
   }
 }
@@ -47,8 +47,9 @@ class MyHomePage extends StatelessWidget {
             child: SizedBox(
               width: 250,
               child: Text(
-                'Click on the Bottom Right Button to Generate a Random Qoute',
+                'Please click on the Bottom Right Button to Generate a Random Qoute',
                 textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
               ),
             ),
           );
@@ -66,7 +67,22 @@ class MyHomePage extends StatelessWidget {
             );
           case FutureStatus.rejected:
             return const Center(
-              child: Text('Error Fetching Data'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error,
+                    color: Colors.red,
+                    size: 50,
+                  ),
+                  Text(
+                    'Error Fetching Data',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  Text('Try Clicking on the buttom right Icon to refresh.')
+                ],
+              ),
             );
           case FutureStatus.fulfilled:
             final listData = future.result;
