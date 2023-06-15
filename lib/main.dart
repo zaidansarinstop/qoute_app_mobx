@@ -1,8 +1,10 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qoute_app_mobx/logic/qoute.dart';
-import 'package:qoute_app_mobx/models/single_qoute.dart';
 
 void main() {
   runApp(const MyApp());
@@ -68,13 +70,66 @@ class MyHomePage extends StatelessWidget {
             );
           case FutureStatus.fulfilled:
             final listData = future.result;
-            return ListView.builder(
+            return PageView.builder(
+              scrollDirection: Axis.vertical,
               itemCount: listData.length,
               itemBuilder: (context, index) {
                 final item = listData[index];
-                return ListTile(
-                  title: Text(item.text ?? 'NA'),
-                  subtitle: Text(item.author ?? 'Not Specified'),
+                final num = Random().nextInt(1000); // max limit from random URL
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    FadeInImage.assetNetwork(
+                      image: 'https://picsum.photos/id/$num/500/900',
+                      fit: BoxFit.cover,
+                      placeholder: 'assets/images/loading.gif',
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          Image.asset(
+                        'assets/images/stock_photo.jpg',
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 2, sigmaY: 1),
+                      child: Center(
+                        child: SizedBox(
+                          width: 250,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                item.text ?? 'NA',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    shadows: [
+                                      Shadow(
+                                          blurRadius: 5,
+                                          color: Colors.black,
+                                          offset: Offset(2, 2))
+                                    ]),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                item.author ?? 'Not Specified',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    shadows: [
+                                      Shadow(
+                                          blurRadius: 5,
+                                          color: Colors.black,
+                                          offset: Offset(3, 3))
+                                    ]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 );
               },
             );
