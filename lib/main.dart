@@ -21,23 +21,36 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Qoute App'),
+      home: const MyHomePage(title: 'Quote App'),
     );
   }
 }
 
 final qouteStore = QouteStore();
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   final String title;
 
   const MyHomePage({required this.title, super.key});
 
   @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+
+  void _changeIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Observer(builder: (_) {
@@ -96,7 +109,7 @@ class MyHomePage extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     FadeInImage.assetNetwork(
-                      image: 'https://picsum.photos/id/$num/500/900',
+                      image: 'https://picsum.photos/id/$num/550/900',
                       fit: BoxFit.cover,
                       placeholder: 'assets/images/loading.gif',
                       imageErrorBuilder: (context, error, stackTrace) =>
@@ -109,10 +122,16 @@ class MyHomePage extends StatelessWidget {
                     BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 2, sigmaY: 1),
                       child: Center(
-                        child: SizedBox(
-                          width: 250,
+                        child: Container(
+                          padding: const EdgeInsets.all(15),
+                          margin: const EdgeInsets.all(50),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.black.withOpacity(0.3),
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
                                 item.text ?? 'NA',
@@ -156,6 +175,14 @@ class MyHomePage extends StatelessWidget {
           qouteStore.fetch();
         },
         child: const Icon(Icons.refresh),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.quora), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'All Qoutes'),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _changeIndex,
       ),
     );
   }
