@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/single_qoute.dart';
 
@@ -34,9 +35,13 @@ class QuoteBox extends StatelessWidget {
           ),
           Text(
             item.author ?? 'Not Specified',
-            style: const TextStyle(color: Colors.white, shadows: [
-              Shadow(blurRadius: 5, color: Colors.black, offset: Offset(3, 3))
-            ]),
+            style: GoogleFonts.raleway(
+                fontSize: 15,
+                color: Colors.white,
+                shadows: [
+                  const Shadow(
+                      blurRadius: 5, color: Colors.black, offset: Offset(2, 2)),
+                ]),
           ),
         ],
       ),

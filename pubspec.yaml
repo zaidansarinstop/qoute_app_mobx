@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_mobx: ^2.0.6+5
+  google_fonts: ^5.0.0
   http: ^1.0.0
   mobx: ^2.2.0
 
