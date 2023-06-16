@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qoute_app_mobx/logic/page_store.dart';
 import 'package:qoute_app_mobx/logic/qoute.dart';
 
 void main() {
@@ -28,29 +29,22 @@ class MyApp extends StatelessWidget {
 
 final qouteStore = QouteStore();
 
-class MyHomePage extends StatefulWidget {
+final pageStore = PageStore();
+
+class MyHomePage extends StatelessWidget {
   final String title;
 
   const MyHomePage({required this.title, super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-
-  void _changeIndex(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void changePage(int page) {
+    pageStore.changeIndex(page);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Observer(builder: (_) {
@@ -176,14 +170,17 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: const Icon(Icons.refresh),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.quora), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'All Qoutes'),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _changeIndex,
-      ),
+      bottomNavigationBar: Observer(builder: (_) {
+        return BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.quora), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.list), label: 'All Qoutes'),
+          ],
+          currentIndex: pageStore.pageIndex,
+          onTap: changePage,
+        );
+      }),
     );
   }
 }
