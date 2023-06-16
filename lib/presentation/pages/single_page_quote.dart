@@ -36,7 +36,7 @@ class SinglePageQoute extends StatelessWidget {
               ),
             ),
             BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 1),
+              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
               child: Center(
                 child: QuoteBox(item: item),
               ),

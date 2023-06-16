@@ -34,7 +34,8 @@ class HomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Observer(builder: (_) {
-        final ObservableFuture<List<SingleQoute>>? future = qouteStore.listOfQoutes;
+        final ObservableFuture<List<SingleQoute>>? future =
+            qouteStore.listOfQoutes;
         final int currentPage = pageStore.pageIndex;
         if (future == null) {
           return const Center(
@@ -59,7 +60,9 @@ class HomePage extends StatelessWidget {
             );
           case FutureStatus.fulfilled:
             final List<dynamic> listData = future.result;
-            return currentPage == 0 ? SinglePageQoute(listData: listData) : AllQoutes(listData: listData);
+            return currentPage == 0
+                ? SinglePageQoute(listData: listData)
+                : AllQoutes(listData: listData);
         }
       }),
       floatingActionButton: FloatingActionButton(
